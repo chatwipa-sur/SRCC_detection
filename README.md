@@ -77,7 +77,10 @@ We recommend using **Google Colab** to run the notebooks, especially if you do n
   ```bash
   jupyter notebook Model_usage.ipynb
   ```
-
+- **Additional Experiment**: explore stronger augmentation
+  ```bash
+  jupyter notebook [Strong_Augmented]_baseline_student_model_training.ipynb
+  ```
 ---
 
 ## Evaluation Metrics
@@ -94,17 +97,28 @@ The following metrics are used in the analysis and reported in the dissertation:
 ---
 
 ## Results Summary
+**Main Experiment**
+| Model                                    | Recall (mean ± SD) | FPs (mean ± SD) | FROC Score (mean ± SD) | F1-Score (mean ± SD) |
+| ---------------------------------------- | ------------------ | --------------- | ---------------------- | -------------------- |
+| **Baseline (ResNet-18)**                 | 0.43 ± 0.07        | 99.95 ± 0.03    | 0.44 ± 0.08            | 0.44 ± 0.07          |
+| **Teacher Model (ResNet-50)**            | 0.52 ± 0.06        | 99.95 ± 0.01    | **0.56 ± 0.05**           | 0.52 ± 0.05          |
+| **Student Model (ResNet-18)**            |                    |                 |                        |                      |
+| pseudo-labels                            | 0.47 ± 0.11        | 99.95 ± 0.01    | 0.47 ± 0.05            | 0.45 ± 0.03          |
+| pseudo-labels and feature imitation      | **0.54 ± 0.06**        | **99.96 ± 0.01**    | **0.56 ± 0.05**            | **0.55 ± 0.03**          |
 
-| Model                              | Recall | F1-Score | FROC Score | FPs    |
-|-----------------------------------|--------|----------|------------|--------|
-| Baseline (ResNet-18)              | 0.43   | 0.44     | 0.44       | 99.95  |
-| Teacher (ResNet-50)               | 0.52   | 0.52     | 0.56       | 99.95  |
-| Student (Pseudo-label)            | 0.47   | 0.45     | 0.47       | 99.95  |
-| Student (Pseudo-label + Feature Imitation)  | 0.54   | 0.55     | 0.56       | 99.96  |
-
-**Key findings include:**
-
+*Key findings:*
 - The proposed student model reduces parameters by **68.8%** and memory footprint by **62.8%** compared to the teacher model, while maintaining performance.
 - Pseudo-labels alone improved recall, but combining with feature imitation-based KD improved all metrics.
 - CenterNet maintained competitive false-positive rates compared to RetinaNet-based methods.
   
+**Supplementary Experiment (using CenterNet with ResNet-18 backbone)**
+| Model                    | Recall (mean ± SD) | FPs (mean ± SD)  | FROC Score (mean ± SD) | F1-Score (mean ± SD) |
+| ------------------------ | ------------------ | ---------------- | ---------------------- | -------------------- |
+| Soft augmentation        | 0.43 ± 0.07        | 99.95 ± 0.03     | 0.44 ± 0.08            | 0.44 ± 0.07          |
+| Strong augmentation      | **0.58 ± 0.05**    | **99.97 ± 0.02** | **0.64 ± 0.06**        | **0.56 ± 0.04**      |
+
+*Key findings:*
+- Stronger data augmentation significantly improved all key metrics compared to soft augmentation.
+- This suggests potential for further performance gains through more advanced augmentation strategies in future work.
+
+
